@@ -1,6 +1,5 @@
 from datetime import datetime as dt
 
-
 def text_in_log(text):
     path = 'logger_telbot.csv'
     time_sign = dt.now().strftime('%D %H:%M')

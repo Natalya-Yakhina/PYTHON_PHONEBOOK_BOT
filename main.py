@@ -1,3 +1,0 @@
-import filik
-
-filik.run()
