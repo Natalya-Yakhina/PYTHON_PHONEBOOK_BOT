@@ -1,9 +1,7 @@
 import logger as log
-from settings import TOKEN
 import json
 from telegram import Bot, ReplyKeyboardMarkup, ReplyKeyboardRemove, Update
 from telegram.ext import Updater, CommandHandler, Filters, MessageHandler, ConversationHandler
-
 
 def load():
     global contact
@@ -28,7 +26,6 @@ def start(update, context):
     context.bot.send_message(update.effective_chat.id, ALL_FUNCTIONS)
     log.text_in_log('---ЗАПУСК БОТА---')
 
-
 def search(update, _):
     text = update.message.text
     reply_keyboard = [['Да', 'Нет']]
@@ -45,7 +42,6 @@ def search(update, _):
     update.message.reply_text('Повторить поиск?')
     return END_SEARCH
 
-
 def end_search(update, _):
     text = update.message.text
     if text == 'Нет':
@@ -53,7 +49,6 @@ def end_search(update, _):
     elif text == 'Да':
         update.message.reply_text('Введите данные для поиска: ')
         return SEARCH
-
 
 def message(update, _):
     text = update.message.text
@@ -63,20 +58,23 @@ def message(update, _):
             'Введите данные для поиска')
         return SEARCH
 
+if __name__ == '__main__':
+    updater = Updater(token='5783314859:AAH0yxtMbSfflc03SxZaxamMhOZoV_RjKr8')
+    dispatcher = updater.dispatcher
 
-bot = Bot(token = '5783314859:AAH0yxtMbSfflc03SxZaxamMhOZoV_RjKr8')
-updater = Updater(token = '5783314859:AAH0yxtMbSfflc03SxZaxamMhOZoV_RjKr8')
-dispatcher = updater.dispatcher
-
-start_handler = CommandHandler('start', start)
-search_handler = ConversationHandler(entry_points=[MessageHandler(Filters.text, message)],
-    states = {SEARCH: [MessageHandler(Filters.text & ~Filters.command, search)],
-            END_SEARCH: [MessageHandler(Filters.text & ~Filters.command, end_search)]})
-message_handler = MessageHandler(Filters.text, message)
+    start_handler = CommandHandler('start', start)
+    search_handler = ConversationHandler(
+        entry_points=[MessageHandler(Filters.text, message)],
+        states = {
+            SEARCH: [MessageHandler(Filters.text & ~Filters.command, search)],
+            END_SEARCH: [MessageHandler(Filters.text & ~Filters.command, end_search)]
+        }
+    )
+    message_handler = MessageHandler(Filters.text, message)
 
 dispatcher.add_handler(start_handler)
 dispatcher.add_handler(search_handler)
 dispatcher.add_handler(message_handler)
-
+print('server_started')
 updater.start_polling()
 updater.idle()
