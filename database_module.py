@@ -10,7 +10,7 @@ def get_all_contacts():  # Возвращает весь список конта
         data = [data[i] for i in range(0, len(data))]
     return data
 
-def get_one_contact(contact_id_get): # Возвращает один контакт по его id
+def get_one_contact(contact_id_get): # Возвращает один контакт по его contact_id
     with open(path_to_db, 'r', encoding='UTF-8') as file: # Читаем данные из базы. 
         data = json.load(file)
         one_contact_get = {}
@@ -37,12 +37,13 @@ def get_contact_info(contact_info_get): # Возвращает контакты 
  
     return info_contact_get
 
-def add_contacts(contacts_new_dict):  # Добавление новых контактов в БД
+def add_contacts(contacts_new_dict):  # Добавление новых контактов в БД [{'contact_id': '', 'surname': 'Петров', 'name': 'Иван', 'phone': '111', 'comment': 'Друг'}, 
+                                                                        #{'contact_id': '', 'surname': 'Васильков', 'name': 'Иван', 'phone': '111', 'comment': 'Друг'}]
     with open(path_to_db, 'r', encoding='UTF-8') as file: # Читаем данные из базы. 
         data = json.load(file)            
         for i in range(0, len(contacts_new_dict)): 
             contacts_new_dict[i]['contact_id'] = data[len(data)-1]['contact_id'] + 1
-            data.append(contacts_new_dict[i])     # Добавляем в список новый контакт   
+            data.append(contacts_new_dict[i])     # Добавляем в список словарей новый контакт   
     with open(path_to_db, 'w', encoding='UTF-8') as file: # Записываем в базу данных обновленный список словарей
         json.dump(data, file, indent=4)
 

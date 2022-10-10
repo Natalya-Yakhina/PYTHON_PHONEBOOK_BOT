@@ -1,4 +1,5 @@
 import time
+# from import_from_file import choice_format
 import art
 from art import *  # библиотека для работы с ascii артом
 
@@ -22,6 +23,19 @@ main_menu = \
     5. Изменить контакт\n\
     6. Импорт контактов\n\
     7. Экспорт контактов'
+
+
+# def start_page():  # Starting page, choose number
+#     print('\033[5;35m╔' + 52 * "═" + '╗')
+#     print('\033[5;32m')
+#     print(text2art(" ContactList", font='cybermedum'))
+#     print('\033[5;35m╚' + 52 * "═" + '╝')
+#     print(main_menu)
+#     print(50 * "═")
+#     print()
+#     #command = input('\033[1mВыберите действие: ')
+#     print(50 * "_")
+#     #return command
 
 
 def show_contacts(data):  # 1 in menu

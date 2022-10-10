@@ -20,7 +20,7 @@ main_keyboard = [
 ]
 
 back_to_main_menu_keyboard= [
-    ['Вернуться в главное меню']
+    ['Вернуться в главное меню'] #огромную кнопка как изменить??
 ]
 
 markup_main_menu = ReplyKeyboardMarkup(main_keyboard, one_time_keyboard=True, resize_keyboard=True)
@@ -28,9 +28,10 @@ markup_back_to_main_menu = ReplyKeyboardMarkup(back_to_main_menu_keyboard, one_t
 
 def start(update: Update, context: CallbackContext) -> int:
     update.message.reply_text(
-        "Вас приветствует Телефонный справочник",
+        "Вас приветствует Телефонный справочник v2.0",
         reply_markup=markup_main_menu,
     )
+
     return CHOOSING
 
 def back_to_main_menu(update: Update, context: CallbackContext) -> int:
@@ -100,14 +101,14 @@ def add_contact (update: Update, context: CallbackContext) -> int:
         elif len(user_data) == 3:
             user_data['comment'] = last_input
             database_module.add_contacts([user_data,])
-            logger.add([user_data,], 'added') 
+            logger.add([user_data,], 'added')        # в логгере contact_id в конце встает  
             user_data.clear()
             update.message.reply_text('Контакт добавлен!',
                         reply_markup=markup_main_menu)
             return CHOOSING
         
-def change_contact (update: Update, context: CallbackContext) -> int:
-    last_input = update.message.text                                   
+def change_contact (update: Update, context: CallbackContext) -> int: # !!!вопрос: у нас есть проверка на то, если пользователь ничего не ввел?
+    last_input = update.message.text                                   # + добавить удаление контакта!!
     user_data = context.user_data
     
     if last_input == 'Изменить контакт':
