@@ -1,7 +1,6 @@
 import time
-# from import_from_file import choice_format
 import art
-from art import *  # библиотека для работы с ascii артом
+from art import *  # библиотека для работы с арт
 
 
 def error_input():
@@ -24,24 +23,9 @@ main_menu = \
     6. Импорт контактов\n\
     7. Экспорт контактов'
 
-
-# def start_page():  # Starting page, choose number
-#     print('\033[5;35m╔' + 52 * "═" + '╗')
-#     print('\033[5;32m')
-#     print(text2art(" ContactList", font='cybermedum'))
-#     print('\033[5;35m╚' + 52 * "═" + '╝')
-#     print(main_menu)
-#     print(50 * "═")
-#     print()
-#     #command = input('\033[1mВыберите действие: ')
-#     print(50 * "_")
-#     #return command
-
-
 def show_contacts(data):  # 1 in menu
     if data != []:
         text =''
-        #print('\033[4mСписок контактов:')
         for item in range(len(data)):
             a = data[item]['contact_id']
             b = data[item]['surname']
@@ -49,7 +33,6 @@ def show_contacts(data):  # 1 in menu
             d = data[item]['phone']
             e = data[item]['comment']
             text += f'{a}) {b} {c}. {d}. {e}.\n'
-        #print(50 * "•")
     else:
         text = 'Контакты не найдены'
     return text
@@ -64,7 +47,7 @@ def add_contact():
     print('\033[3mДобавление контакта')
     print(50 * "-")
     contact_surname = input('Введите фамилию ')  # plain text
-    contact_name = input('Введите имя ')  # DD-MM-YY
+    contact_name = input('Введите имя ') 
     contact_number = input('Введите номер телефона')
     commentary = input('Комментарий')
     contact = [{'contact_id': '', 'surname': contact_surname, 'name': contact_name, 'phone': contact_number,
@@ -88,22 +71,22 @@ def change_contact_content(one_contact):
                 submenu_command = input(
                     'Что необходимо изменить?\n 1 - Изменить фамилию \n 2 - Изменить имя\n 3 - Изменить номер телефона\n 4 - Изменить комментарий\n')
                 match submenu_command:
-                    case '1':  # Изменить фамилию
+                    case '1':  # изменить фамилию
                         print('Введите фамилию')
                         one_contact['surname'] = input()
                         done_message()
                         break
-                    case '2':  # Изменить имя
+                    case '2':  # изменить имя
                         print('Введите имя')
                         one_contact['name'] = input()
                         done_message()
                         break
-                    case '3':  # Изменить номер телефона
+                    case '3':  # изменить номер телефона
                         print('Введите номер телефона')
                         one_contact['phone'] = input()
                         done_message()
                         break
-                    case '4':  # Изменить комментарий
+                    case '4':  # изменить комментарий
                         print('Введите комментарий')
                         one_contact['comment'] = input()
                         done_message()
@@ -118,7 +101,7 @@ def change_contact_content(one_contact):
     return one_contact
 
 
-def bye_mess():  # 6 in menu
+def bye_mess():  # 6 в menu
     print('Работа завершена!')
 
 

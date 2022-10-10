@@ -20,7 +20,7 @@ main_keyboard = [
 ]
 
 back_to_main_menu_keyboard= [
-    ['Вернуться в главное меню'] #огромную кнопка как изменить??
+    ['Вернуться в главное меню']
 ]
 
 markup_main_menu = ReplyKeyboardMarkup(main_keyboard, one_time_keyboard=True, resize_keyboard=True)
@@ -28,7 +28,7 @@ markup_back_to_main_menu = ReplyKeyboardMarkup(back_to_main_menu_keyboard, one_t
 
 def start(update: Update, context: CallbackContext) -> int:
     update.message.reply_text(
-        "Вас приветствует Телефонный справочник v2.0",
+        "Вас приветствует Телефонный справочник",
         reply_markup=markup_main_menu,
     )
 
@@ -101,15 +101,14 @@ def add_contact (update: Update, context: CallbackContext) -> int:
         elif len(user_data) == 3:
             user_data['comment'] = last_input
             database_module.add_contacts([user_data,])
-            logger.add([user_data,], 'added')        # в логгере contact_id в конце встает  
+            logger.add([user_data,], 'added')        # в логгер id встает в конце
             user_data.clear()
             update.message.reply_text('Контакт добавлен!',
                         reply_markup=markup_main_menu)
             return CHOOSING
         
-def change_contact (update: Update, context: CallbackContext) -> int: # !!!вопрос: у нас есть проверка на то, если пользователь ничего не ввел?
-    last_input = update.message.text                                   # + добавить удаление контакта!!
-    user_data = context.user_data
+def change_contact (update: Update, context: CallbackContext) -> int: 
+    last_input = update.message.text                                
     
     if last_input == 'Изменить контакт':
         update.message.reply_text('Изменение контакта') 
@@ -121,7 +120,6 @@ def change_contact (update: Update, context: CallbackContext) -> int: # !!!во�
             contact_list,
             reply_markup=markup_back_to_main_menu
         )
-        
         user_data.clear()
         return CHANGE_CONTACT
     
@@ -129,30 +127,30 @@ def change_contact (update: Update, context: CallbackContext) -> int: # !!!во�
         if len(user_data) == 0:
             data = database_module.get_all_contacts()
             if len(data) < int(last_input):
-                update.message.reply_text('В шары долбишся??\nТакого контакта нет!',
+                update.message.reply_text('Ну ты чего?!\nТакого контакта нет!',
                 reply_markup=markup_main_menu)
                 return CHOOSING
 
             user_data['contact_id'] = int(last_input)
-            update.message.reply_text('Введите новое имя:',
+            update.message.reply_text('Введите имя еще раз:',
                 reply_markup=markup_back_to_main_menu)
             return CHANGE_CONTACT
         
         elif len(user_data) == 1:
             user_data['surname'] = last_input
-            update.message.reply_text('Введите новую фамилию:',
+            update.message.reply_text('Введите фамилию еще раз:',
                 reply_markup=markup_back_to_main_menu)
             return CHANGE_CONTACT        
         
         elif len(user_data) == 2:
             user_data['name'] = last_input
-            update.message.reply_text('Введите новый номер телефона:',
+            update.message.reply_text('Введите номер телефона еще раз:',
                 reply_markup=markup_back_to_main_menu)
             return CHANGE_CONTACT
 
         elif len(user_data) == 3:
             user_data['phone'] = last_input
-            update.message.reply_text('Введите новый комментарий:',
+            update.message.reply_text('Введите комментарий еще раз:',
                 reply_markup=markup_back_to_main_menu)
             return CHANGE_CONTACT
 
@@ -178,7 +176,7 @@ def import_contacts (update: Update, context: CallbackContext) -> int:
     
     file_name = update.message.document.file_name
     file = context.bot.getFile(update.message.document.file_id)
-    if file_name.split('.')[-1] == 'csv': # сюда еще можно будет добавить блок try except для проверки содержимого файла
+    if file_name.split('.')[-1] == 'csv':
         data = import_from_file.import_csv(file.download('./import_phonebook.csv'))
         database_module.add_contacts(data)
         logger.add(data, 'imported')
@@ -190,7 +188,7 @@ def import_contacts (update: Update, context: CallbackContext) -> int:
         logger.add(data, 'imported')
 
     else:
-        update.message.reply_text('Файл не импортирован: неизвестное расширение',
+        update.message.reply_text('Файл не импортирован: неизвестное расширение!',
                                     reply_markup=markup_main_menu)
         return CHOOSING
     
